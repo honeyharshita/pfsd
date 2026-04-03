@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/mindful-ai';
+function getMongoUri() {
+  return process.env.MONGODB_URI || 'mongodb://localhost:27017/mindful-ai';
+}
 
 function normalizeUserEmail(userEmail) {
   if (typeof userEmail === 'string' && userEmail.trim()) {
@@ -53,6 +55,7 @@ const sessionAnalyticsSchema = new mongoose.Schema({
 let ChatConversation = null;
 let SessionAnalytics = null;
 let isConnected = false;
+let lastMongoError = null;
 
 async function connectMongoDB() {
   if (isConnected && ChatConversation) {
@@ -60,7 +63,7 @@ async function connectMongoDB() {
   }
 
   try {
-    await mongoose.connect(MONGODB_URI, {
+    await mongoose.connect(getMongoUri(), {
       serverSelectionTimeoutMS: 5000,
       socketTimeoutMS: 45000,
     });
@@ -68,14 +71,30 @@ async function connectMongoDB() {
     ChatConversation = mongoose.models.ChatConversation || mongoose.model('ChatConversation', chatConversationSchema, 'chat_conversations');
     SessionAnalytics = mongoose.models.SessionAnalytics || mongoose.model('SessionAnalytics', sessionAnalyticsSchema, 'session_analytics');
     isConnected = true;
+    lastMongoError = null;
     
     console.log('✅ MongoDB connected successfully');
     return true;
   } catch (error) {
     console.warn('⚠️ MongoDB connection failed:', error.message);
     console.warn('💾 Chat will use in-memory fallback storage');
+    isConnected = false;
+    lastMongoError = error?.message || 'Unknown MongoDB error';
     return false;
   }
+}
+
+export async function initChatDb() {
+  return connectMongoDB();
+}
+
+export function getMongoStatus() {
+  return {
+    connected: isConnected,
+    uriConfigured: Boolean(process.env.MONGODB_URI),
+    fallback: !isConnected,
+    lastError: lastMongoError,
+  };
 }
 
 // In-memory fallback

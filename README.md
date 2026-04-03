@@ -212,11 +212,43 @@ When available, backend prefers local Ollama before other providers.
 Use backend environment settings for provider keys and runtime behavior.
 
 Common variables (depending on enabled providers):
+- `MONGODB_URI`
+- `SURREALDB_URL`
+- `SURREALDB_USER`
+- `SURREALDB_PASS`
+- `SURREALDB_NS`
+- `SURREALDB_DB`
 - `OPENAI_API_KEY`
 - `GEMINI_API_KEY`
 - Any other provider-specific keys in backend integrations
 
 If keys are missing/unavailable, fallback paths still allow chat responses.
+
+### 9.1 MongoDB Atlas Integration (Now Active)
+
+Chat persistence is now connected to MongoDB Atlas through Mongoose.
+
+Current behavior:
+- Backend initializes MongoDB on startup.
+- Chat messages are stored in `chat_conversations`.
+- Session summaries are stored in `session_analytics`.
+- `/api/health` reports real Mongo connection status.
+
+Where to check in Atlas:
+- Cluster: `shopverse`
+- Database: `shopverse`
+- Collections:
+	- `chat_conversations`
+	- `session_analytics`
+
+### 9.2 SurrealDB Integration
+
+SurrealDB remains configured as an optional store for app entities and alerts.
+
+Current behavior:
+- Backend attempts SurrealDB connection on startup.
+- If unavailable, server automatically falls back to in-memory mode.
+- `/api/health` reports SurrealDB connection and fallback status.
 
 ## 10. Reliability and Fallback Behavior
 
@@ -240,6 +272,8 @@ Repository includes:
 - Full frontend and backend implementation
 - Chat reliability improvements
 - Context/follow-up handling updates
+- MongoDB Atlas-backed chat persistence
+- Database health diagnostics in API health endpoint
 - Documentation for quick start and setup
 
 If you are starting fresh, read this file first, then use `QUICK_START.md` for a fast run path.

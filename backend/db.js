@@ -199,20 +199,42 @@ class MemoryAdapter {
 }
 
 let db;
+let surrealStatus = {
+  connected: false,
+  fallback: false,
+  lastError: null,
+};
 
 export async function initDb() {
   try {
     db = new SurrealAdapter();
     await db.init();
+    surrealStatus = {
+      connected: true,
+      fallback: false,
+      lastError: null,
+    };
     return db;
   } catch (error) {
     console.error('❌ SurrealDB initialization failed:', error.message);
     db = new MemoryAdapter();
     await db.init();
+    surrealStatus = {
+      connected: false,
+      fallback: true,
+      lastError: error?.message || 'Unknown SurrealDB error',
+    };
     return db;
   }
 }
 
 export function getDb() {
   return db;
+}
+
+export function getSurrealStatus() {
+  return {
+    ...surrealStatus,
+    urlConfigured: Boolean(process.env.SURREALDB_URL),
+  };
 }

@@ -1,7 +1,8 @@
 // @ts-nocheck
 
-const API_BASE = 'http://localhost:5000/api/ai';
-const PREDICTION_API_BASE = 'http://localhost:5000/api';
+const BASE_URL = (import.meta.env.VITE_API_URL || 'http://localhost:5000').trim().replace(/\/+$/, '');
+const API_BASE = `${BASE_URL}/api/ai`;
+const PREDICTION_API_BASE = `${BASE_URL}/api`;
 
 async function callAI(endpoint, method = 'GET', data = null) {
   const options = {

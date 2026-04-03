@@ -3,40 +3,35 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { initDb, getSurrealStatus } from './db.js';
-import { initChatDb, getMongoStatus } from './chatDb.js';
-import chatRoutes from './routes/chat.js';
-import moodRoutes from './routes/mood.js';
-import predictMoodRoutes from './routes/predictMood.js';
-import analysisRoutes from './routes/analysis.js';
-import reportRoutes from './routes/reports.js';
-import forecasterRoutes from './routes/forecaster.js';
-import decisionRoutes from './routes/decision.js';
-import adminRoutes from './routes/admin.js';
-import aiRoutes from './routes/ai.js';
-import aiInsightsRoutes from './routes/aiInsights.js';
-import entityRoutes from './routes/entities.js';
-import notificationRoutes from './routes/notifications.js';
+import { initDb, getSurrealStatus } from '../db.js';
+import { initChatDb, getMongoStatus } from '../chatDb.js';
+import chatRoutes from '../routes/chat.js';
+import moodRoutes from '../routes/mood.js';
+import predictMoodRoutes from '../routes/predictMood.js';
+import analysisRoutes from '../routes/analysis.js';
+import reportRoutes from '../routes/reports.js';
+import forecasterRoutes from '../routes/forecaster.js';
+import decisionRoutes from '../routes/decision.js';
+import adminRoutes from '../routes/admin.js';
+import aiRoutes from '../routes/ai.js';
+import aiInsightsRoutes from '../routes/aiInsights.js';
+import entityRoutes from '../routes/entities.js';
+import notificationRoutes from '../routes/notifications.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-dotenv.config({ path: path.join(__dirname, '.env.local') });
-dotenv.config({ path: path.join(__dirname, '..', 'pfsd', '.env.local') });
+dotenv.config({ path: path.join(__dirname, '..', '.env.local') });
 
 const app = express();
-const PORT = process.env.PORT || 5000;
 const FRONTEND_URL = process.env.FRONTEND_URL;
 
-// Middleware
 const allowedOriginPatterns = [
   /^http:\/\/localhost:\d+$/,
   /^http:\/\/127\.0\.0\.1:\d+$/,
   /^https:\/\/[a-z0-9-]+\.vercel\.app$/,
 ];
 
-const allowedOrigins = new Set([
-  FRONTEND_URL,
-].filter(Boolean));
+const allowedOrigins = new Set([FRONTEND_URL].filter(Boolean));
 
 app.use(cors({
   origin(origin, callback) {
@@ -51,18 +46,23 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
 }));
+
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
-app.use((req, _res, next) => {
-  console.log('[REQ] %s %s', req.method, req.url);
-  next();
-});
 
-// Initialize database
-await initDb();
+let dbInitPromise = null;
+function ensureDbInit() {
+  if (!dbInitPromise) {
+    dbInitPromise = initDb().catch((err) => {
+      console.error('[DB] init failed, continuing with in-memory fallback where available:', err?.message || err);
+    });
+  }
+  return dbInitPromise;
+}
+
+await ensureDbInit();
 await initChatDb();
 
-// Routes
 app.use('/api/chat', chatRoutes);
 app.use('/api/mood', moodRoutes);
 app.use('/api', predictMoodRoutes);
@@ -76,7 +76,6 @@ app.use('/api/ai', aiInsightsRoutes);
 app.use('/api/entities', entityRoutes);
 app.use('/api/notifications', notificationRoutes);
 
-// Compatibility aliases for cleaner production API paths.
 app.post('/api/chat', (req, res, next) => {
   req.url = '/send';
   chatRoutes(req, res, next);
@@ -117,8 +116,7 @@ app.post('/api/weekly-report', (req, res, next) => {
   reportRoutes(req, res, next);
 });
 
-// Health check
-app.get('/api/health', (req, res) => {
+app.get('/api/health', (_req, res) => {
   res.json({
     status: 'OK',
     timestamp: new Date().toISOString(),
@@ -129,10 +127,4 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
-  const key = process.env.OPENAI_API_KEY || '';
-  const validKey = key.trim().length > 0 && !/YOUR-OPENAI-API-KEY|YOUR_KEY_HERE|sk-proj-YOUR/i.test(key);
-  console.log(`🚀 Backend running on http://localhost:${PORT}`);
-  console.log(`✅ Storage ready`);
-  console.log(`✅ OpenAI key loaded: ${validKey}`);
-});
+export default app;
