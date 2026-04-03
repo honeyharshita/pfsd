@@ -1,0 +1,49 @@
+{
+  "name": "ChatConversation",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Conversation title"
+    },
+    "messages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "role": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string"
+          },
+          "sentiment": {
+            "type": "string"
+          },
+          "sentiment_score": {
+            "type": "number"
+          }
+        }
+      },
+      "description": "Chat messages"
+    },
+    "overall_sentiment": {
+      "type": "string",
+      "description": "Overall conversation sentiment"
+    },
+    "is_anonymous": {
+      "type": "boolean",
+      "description": "Whether this is an anonymous session"
+    },
+    "crisis_detected": {
+      "type": "boolean",
+      "description": "Whether crisis was detected"
+    }
+  },
+  "required": [
+    "title"
+  ]
+}

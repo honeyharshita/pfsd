@@ -1,0 +1,101 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-purple: #7c3aed;
+  --primary-teal: #14b8a6;
+  --primary-peach: #fb923c;
+  --calm-blue: #60a5fa;
+  --soft-pink: #f9a8d4;
+  --bg-light: #faf5ff;
+  --bg-dark: #0f0a1a;
+}
+
+.dark-mode {
+  --background: 0 0% 7%;
+  --foreground: 0 0% 95%;
+  --card: 0 0% 10%;
+  --card-foreground: 0 0% 95%;
+  --muted: 0 0% 15%;
+  --muted-foreground: 0 0% 65%;
+  --border: 0 0% 20%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(124, 58, 237, 0.2); }
+  50% { box-shadow: 0 0 40px rgba(124, 58, 237, 0.4); }
+}
+
+@keyframes breathe {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.5); opacity: 1; }
+}
+
+@keyframes emoji-float {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(-100px) rotate(20deg); opacity: 0; }
+}
+
+.animate-float { animation: float 3s ease-in-out infinite; }
+.animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+.animate-breathe { animation: breathe 4s ease-in-out infinite; }
+.animate-emoji-float { animation: emoji-float 2s ease-out forwards; }
+
+.gradient-text {
+  background: linear-gradient(135deg, #7c3aed, #14b8a6, #fb923c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.dark-mode .glass-card {
+  background: rgba(15, 10, 26, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mood-happy { background: linear-gradient(135deg, #fbbf24, #f59e0b); }
+.mood-calm { background: linear-gradient(135deg, #60a5fa, #3b82f6); }
+.mood-neutral { background: linear-gradient(135deg, #a78bfa, #8b5cf6); }
+.mood-stressed { background: linear-gradient(135deg, #fb923c, #f97316); }
+.mood-sad { background: linear-gradient(135deg, #818cf8, #6366f1); }
+.mood-angry { background: linear-gradient(135deg, #f87171, #ef4444); }
+.mood-anxious { background: linear-gradient(135deg, #fbbf24, #d97706); }
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(124, 58, 237, 0.3); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(124, 58, 237, 0.5); }
+
+.typing-dot {
+  animation: typing 1.4s infinite ease-in-out both;
+}
+.typing-dot:nth-child(1) { animation-delay: 0s; }
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typing {
+  0%, 80%, 100% { transform: scale(0); }
+  40% { transform: scale(1); }
+}

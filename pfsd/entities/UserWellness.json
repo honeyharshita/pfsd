@@ -1,0 +1,49 @@
+{
+  "name": "UserWellness",
+  "type": "object",
+  "properties": {
+    "mood_goal": {
+      "type": "string",
+      "description": "User's mood/wellness goal"
+    },
+    "preferred_activities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Preferred wellness activities"
+    },
+    "notification_preferences": {
+      "type": "object",
+      "properties": {
+        "daily_checkin": {
+          "type": "boolean"
+        },
+        "gratitude_reminder": {
+          "type": "boolean"
+        },
+        "meditation_reminder": {
+          "type": "boolean"
+        }
+      },
+      "description": "Notification settings"
+    },
+    "dark_mode": {
+      "type": "boolean",
+      "description": "Dark mode preference"
+    },
+    "total_meditation_minutes": {
+      "type": "number",
+      "description": "Total meditation time"
+    },
+    "gratitude_streak": {
+      "type": "number",
+      "description": "Current gratitude streak"
+    },
+    "wellness_score": {
+      "type": "number",
+      "description": "Overall wellness score 0-100"
+    }
+  },
+  "required": []
+}

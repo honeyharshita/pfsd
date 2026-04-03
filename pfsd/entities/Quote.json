@@ -1,0 +1,33 @@
+{
+  "name": "Quote",
+  "type": "object",
+  "properties": {
+    "text": {
+      "type": "string",
+      "description": "The quote text"
+    },
+    "author": {
+      "type": "string",
+      "description": "Quote author"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "motivation",
+        "mindfulness",
+        "gratitude",
+        "strength",
+        "hope",
+        "self_care"
+      ],
+      "description": "Quote category"
+    },
+    "likes": {
+      "type": "number",
+      "description": "Number of likes"
+    }
+  },
+  "required": [
+    "text"
+  ]
+}

@@ -1,0 +1,8 @@
+Django==5.1.4
+graphene-django==3.2.2
+django-cors-headers==4.6.0
+python-dotenv==1.0.1
+openai==1.52.2
+httpx==0.27.2
+pymongo==4.9.2
+requests==2.32.3

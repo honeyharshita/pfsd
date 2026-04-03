@@ -1,0 +1,44 @@
+{
+  "name": "Achievement",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "gratitude_streak",
+        "meditation_sessions",
+        "journal_entries",
+        "mood_checkins",
+        "games_played",
+        "positive_days"
+      ],
+      "description": "Achievement type"
+    },
+    "count": {
+      "type": "number",
+      "description": "Current count/streak"
+    },
+    "badge_level": {
+      "type": "string",
+      "enum": [
+        "bronze",
+        "silver",
+        "gold",
+        "platinum"
+      ],
+      "description": "Badge level earned"
+    },
+    "unlocked": {
+      "type": "boolean",
+      "description": "Whether badge is unlocked"
+    },
+    "unlocked_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date badge was unlocked"
+    }
+  },
+  "required": [
+    "type"
+  ]
+}

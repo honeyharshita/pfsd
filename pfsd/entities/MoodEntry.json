@@ -1,0 +1,50 @@
+{
+  "name": "MoodEntry",
+  "type": "object",
+  "properties": {
+    "mood": {
+      "type": "string",
+      "enum": [
+        "happy",
+        "calm",
+        "neutral",
+        "stressed",
+        "sad",
+        "angry",
+        "anxious"
+      ],
+      "description": "The user's mood"
+    },
+    "intensity": {
+      "type": "number",
+      "description": "Mood intensity from 1-10"
+    },
+    "note": {
+      "type": "string",
+      "description": "Optional note about the mood"
+    },
+    "triggers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "What triggered this mood"
+    },
+    "activities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Activities done"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of mood entry"
+    }
+  },
+  "required": [
+    "mood",
+    "date"
+  ]
+}

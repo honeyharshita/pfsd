@@ -1,0 +1,23 @@
+{
+  "name": "mindful-ai-backend",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.82.0",
+    "@google/generative-ai": "^0.24.1",
+    "cors": "^2.8.5",
+    "date-fns": "^3.0.0",
+    "dotenv": "^16.3.1",
+    "express": "^4.22.1",
+    "html-pdf": "^3.0.1",
+    "mongoose": "^9.3.3",
+    "openai": "^4.104.0",
+    "pdfkit": "^0.18.0",
+    "sentiment": "^5.0.2",
+    "surrealdb": "^1.0.0-beta.9"
+  }
+}

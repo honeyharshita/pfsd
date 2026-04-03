@@ -1,0 +1,42 @@
+{
+  "name": "CrisisAlert",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "Email of user in crisis"
+    },
+    "trigger_message": {
+      "type": "string",
+      "description": "The message that triggered the alert"
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "description": "Severity level"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "new",
+        "reviewing",
+        "resolved"
+      ],
+      "default": "new",
+      "description": "Alert status"
+    },
+    "admin_notes": {
+      "type": "string",
+      "description": "Notes from admin review"
+    }
+  },
+  "required": [
+    "trigger_message",
+    "severity"
+  ]
+}

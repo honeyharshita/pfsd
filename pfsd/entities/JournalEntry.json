@@ -1,0 +1,41 @@
+{
+  "name": "JournalEntry",
+  "type": "object",
+  "properties": {
+    "content": {
+      "type": "string",
+      "description": "Journal text content"
+    },
+    "ai_analysis": {
+      "type": "string",
+      "description": "AI analysis of the journal entry"
+    },
+    "detected_emotions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Emotions detected in the entry"
+    },
+    "sentiment_score": {
+      "type": "number",
+      "description": "Overall sentiment score -1 to 1"
+    },
+    "gratitude_items": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Gratitude items listed"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of the journal entry"
+    }
+  },
+  "required": [
+    "content",
+    "date"
+  ]
+}
