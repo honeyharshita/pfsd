@@ -24,16 +24,24 @@ dotenv.config({ path: path.join(__dirname, '..', 'pfsd', '.env.local') });
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const FRONTEND_URL = process.env.FRONTEND_URL;
 
 // Middleware
-const allowedOrigins = [
+const allowedOriginPatterns = [
   /^http:\/\/localhost:\d+$/,
   /^http:\/\/127\.0\.0\.1:\d+$/,
+  /^https:\/\/[a-z0-9-]+\.vercel\.app$/,
 ];
+
+const allowedOrigins = new Set([
+  FRONTEND_URL,
+].filter(Boolean));
 
 app.use(cors({
   origin(origin, callback) {
-    if (!origin || allowedOrigins.some((pattern) => pattern.test(origin))) {
+    const isPatternMatch = allowedOriginPatterns.some((pattern) => pattern.test(origin || ''));
+    const isExplicitlyAllowed = origin ? allowedOrigins.has(origin) : false;
+    if (!origin || isPatternMatch || isExplicitlyAllowed) {
       return callback(null, true);
     }
     return callback(new Error(`CORS blocked for origin: ${origin}`));
