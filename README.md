@@ -236,7 +236,7 @@ Current behavior:
 
 Where to check in Atlas:
 - Cluster: `shopverse`
-- Database: `shopverse`
+- Database: `mindfulai`
 - Collections:
 	- `chat_conversations`
 	- `session_analytics`
