@@ -1,39 +1,69 @@
-**Welcome to your Base44 project** 
+# MindfulAI Frontend
 
-**About**
+Frontend for the MindfulAI wellness chatbot and AI insights platform.
 
-View and Edit  your app on [Base44.com](http://Base44.com) 
+## Local Setup
 
-This project contains everything you need to run your app locally.
+1. Go to the frontend folder:
 
-**Edit the code in your local development environment**
-
-Any change pushed to the repo will also be reflected in the Base44 Builder.
-
-**Prerequisites:** 
-
-1. Clone the repository using the project's Git URL 
-2. Navigate to the project directory
-3. Install dependencies: `npm install`
-4. Create an `.env.local` file and set the right environment variables
-
-```
-VITE_BASE44_APP_ID=your_app_id
-VITE_BASE44_APP_BASE_URL=your_backend_url
-
-e.g.
-VITE_BASE44_APP_ID=cbef744a8545c389ef439ea6
-VITE_BASE44_APP_BASE_URL=https://my-to-do-list-81bfaad7.base44.app
+```bash
+cd pfsd
 ```
 
-Run the app: `npm run dev`
+2. Install dependencies:
 
-**Publish your changes**
+```bash
+npm install
+```
 
-Open [Base44.com](http://Base44.com) and click on Publish.
+3. Start the frontend server:
 
-**Docs & Support**
+```bash
+npm run dev
+```
 
-Documentation: [https://docs.base44.com/Integrations/Using-GitHub](https://docs.base44.com/Integrations/Using-GitHub)
+Frontend runs on `http://localhost:5173`.
 
-Support: [https://app.base44.com/support](https://app.base44.com/support)
+## Full App Run (Frontend + Backend)
+
+Use two terminals from the repository root:
+
+Terminal 1 (backend):
+
+```bash
+cd backend
+npm install
+npm start
+```
+
+Terminal 2 (frontend):
+
+```bash
+cd pfsd
+npm install
+npm run dev
+```
+
+Backend runs on `http://localhost:5000`.
+
+## Ollama Setup (Local LLM)
+
+1. Install Ollama from https://ollama.com
+2. Pull a model:
+
+```bash
+ollama pull llama3.2:1b
+```
+
+3. Run Ollama (if not already running):
+
+```bash
+ollama serve
+```
+
+The backend is configured to try Ollama first, then fallback providers.
+
+## Notes
+
+- If SurrealDB initialization fails, backend falls back to in-memory storage.
+- For chat quality, keep backend and frontend both running before testing.
